@@ -24,7 +24,7 @@ header {
     margin-top: 2vmin;
 }
 #board>div {
-    border: 0.1vmin solid whitesmoke;
+    border: 0.1vmin solid darkblue;
 }
 
 button {

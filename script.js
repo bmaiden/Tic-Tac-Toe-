@@ -27,6 +27,13 @@ let winner;  //null || 1 || -1 || 'tie'
 //save HTML elements as variables to use later
 const messageEl = document.querySelector('h2');
 const playAgainButton = document.querySelector('button');
+// ... = spread operator
+// this operator takes a copy of whatever is selected(object, a nodelist, htmlcollection, array) and 
+//does something to all of the items
+// because we used array brackets, the spread operator is grabbing the items in the nodelist and pushing 
+//them into a new array
+const squareEls = [...document.querySelectorAll('#squares > div')];
+console.log('squareEls \n', squareEls);
 
 /*----- functions -----*/
 //function -init- initializes an empty game board and runs one time when game loads
@@ -43,7 +50,7 @@ function init (){
     ]
 
     render()
-    
+
 };
 
 init();
@@ -87,15 +94,29 @@ function renderMessage() {
 
 //function -render- calls all of our render based functions at once; call for this function is placed in the function -init
 function render() {
-    // call renderBoard
     renderBoard()
-    // call renderMessage
     renderMessage()
-    // call renderControls
     renderControls()
 };
 
+// function -boxClicked- main gameplay function, finds the box clicked on
+function boxClicked (event) {
+    //determine square selected
+    const colIdx = squareEls.indexOf(event.target)
+    console.log('this is colIdx inside boxClicked', colIdx)
+    const colArr = board[colIdx]
+    console.log('this is colArr inside boxClicked', colArr)
+    //const rowIdx = squareArr.indexOf[0]
+    //    if (rowIdx === -1) return
+    //squareArr[rowIdx] = turn
+    //turn *= -1
+    ////winner = getWinner(colIdx, rowIdx)
+    //render ()
+};
+
 /*----- event listeners -----*/
+//click on the box to make a move
+document.getElementById('squares').addEventListener('click', boxClicked);
 //click play again button. This initialize an empty board and resets all variables
 playAgainButton.addEventListener('click', init);
 
