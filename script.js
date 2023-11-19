@@ -124,11 +124,13 @@ function squarePicked (event) {
     render()
 }
 
-//function -getWinner- uses winningCombo array to determine if there is a winner
+//function -getWinner- uses winningCombo array to determine if there is a winner or determines tie
 function getWinner() {
     for (let winArr of winningCombos) {
         if (Math.abs(board[winArr[0]] + board[winArr[1]] + board[winArr[2]]) === 3) return board[winArr[0]];
-    }
+        } 
+        if (board.includes(null)) return null
+        else return 'T'
 };
 
 /*---- event listeners -----*/
