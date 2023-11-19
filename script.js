@@ -114,11 +114,19 @@ function render() {
 };
 
 //function -boxClicked- main gameplay function, finds the box clicked on
-//function boxClicked (event) {
-//determine square selected
+//determine square selected,
 function boxClicked (event){
     const colIdx = squareEls.indexOf(event.target)
-    console.log('this gives a number for boxClicked', colIdx)
+    //console.log('this gives a number for boxClicked', colIdx)
+    //if the square is already taken or there is a winner, exit the function
+    if (board[colIdx] || winner) return;
+    //assign the value to the cell based on the turn
+    board[colIdx] = turn;
+    //change whose turn it is
+    turn *= -1;
+    winner = getWinner();            //---------NEED TO CREATE THIS--------------//
+    //after every move, need to render the changes
+    render();
 };
 
 /*----- event listeners -----*/
