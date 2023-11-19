@@ -33,7 +33,9 @@ const winningCombos = [
 /*----- state variables -----*/
 let board;   //an array 
 let turn;    //will be a value of 1 || -1
-let winner;  //an array of 8 nested
+let winner;  
+//let resetGame = false;
+
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
@@ -55,7 +57,7 @@ function init (){
     //set values and nested array for our state variables
     turn = 1;
     winner = null;
-
+//  let resetGame = true;
     board = [null,null,null,null,null,null,null,null,null];
     
     render()
@@ -67,8 +69,6 @@ init();
 //renders the game board by looping over board array/functions and applies a background color for each element 
 function renderBoard() {
     board.forEach((squareVal, squareIdx) => {
-        //console.log('squareVal', squareVal)
-        //console.log('squareIdx', squareIdx)
         const squareEls = document.getElementById(`sq-${squareIdx}`)
             //console.log('squareEl', squareEl)
         squareEls.style.backgroundColor = colors[squareVal]
@@ -79,18 +79,23 @@ function renderBoard() {
 //this uses a ternary operator: ask a question ? if true, do this : if false do that  uses 2 conditions only
 function renderControls() {
     playAgainButton.style.visibility = winner ? 'visible' : 'hidden'
+//    if (resetGame = false) {
+//        restartGame()
+//    }
 };
 
 //function -renderMessage- displays a tie, a winner, or current player turn
 function renderMessage() {
     if (winner === 'T') {
         messageEl.innerText = "It's a Tie!"
+//        resetGame = false
     } else if (winner) {
         messageEl.innerHTML = `
             <span style="color: ${colors[winner]}">
                 ${colors[winner].toUpperCase()}
             </span> Wins!
         `
+//        resetGame = false
     } else {
         messageEl.innerHTML = `
             <span style="color: ${colors[turn]}">
@@ -132,6 +137,13 @@ function getWinner() {
         if (board.includes(null)) return null
         else return 'T'
 };
+
+//function -restartGame- resets game board back to empty
+//function restartGame () {
+//    colors = 1
+//    board = [null,null,null,null,null,null,null,null,null];
+//    resestGame = true   
+//};
 
 /*---- event listeners -----*/
 //click on the box to make a move

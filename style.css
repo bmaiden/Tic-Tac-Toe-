@@ -25,6 +25,9 @@ header {
 }
 #board>div {
     border: 0.1vmin solid darkblue;
+    font-size: 25px;
+    cursor: pointer;
+    text-align: center;
 }
 
 button {
