@@ -1,8 +1,7 @@
-
 // 1) Display an empty tic-tac-toe board when the page is initially displayed.  √
-// 2) A player can click on the nine cells to make a move.
+// 2) A player can click on the nine cells to make a move.  √
 // 3) Every click will alternate between marking an X and O.
-// 4) Once occupied with an X or O, the cell cannot be played again.
+// 4) Once occupied with an X or O, the cell cannot be played again.  √
 // 5) Provide a Reset Game button that will clear the contents of the board.
 
 //Testing to make sure HTML & CSS are linked to JS  √
@@ -32,21 +31,22 @@ const winningCombos = [
 
 
 /*----- state variables -----*/
-let board;   //an array of 3 nested arrays
+let board;   //an array 
 let turn;    //will be a value of 1 || -1
-let winner;  //null || 1 || -1 || 'tie'
+let winner;  //an array of 8 nested
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
 const messageEl = document.querySelector('h2');
 const playAgainButton = document.querySelector('button');
+
 // ... = spread operator
 // this operator takes a copy of whatever is selected(object, a nodelist, htmlcollection, array) and 
 //does something to all of the items
 // because we used array brackets, the spread operator is grabbing the items in the nodelist and pushing 
 //them into a new array
 const squareEls = [...document.querySelectorAll('#board > div')];
-console.log('squareEls \n', squareEls);
+//console.log('squareEls \n', squareEls);
 
 /*----- functions -----*/
 //function -init- initializes an empty game board and runs one time when game loads
@@ -56,33 +56,27 @@ function init (){
     turn = 1;
     winner = null;
 
-    board = [
-        [0,0,0],   // col 0
-        [0,0,0],   // col 1
-        [0,0,0],   // col 2
-    ]
-
+    board = [null,null,null,null,null,null,null,null,null];
+    
     render()
-
 };
 
 init();
 
-
 //function -renderBoard- with nested functions
 //renders the game board by looping over board array/functions and applies a background color for each element 
 function renderBoard() {
-    board.forEach(function (colArr, colIdx) {
-        colArr.forEach(function (cellVal, rowIdx) {
-            const cellId = `c${colIdx}r${rowIdx}`
-            const cellEl = document.getElementById(cellId)
-            cellEl.style.backgroundColor = colors[cellVal]
-        })
+    board.forEach((squareVal, squareIdx) => {
+        //console.log('squareVal', squareVal)
+        //console.log('squareIdx', squareIdx)
+        const squareEls = document.getElementById(`sq-${squareIdx}`)
+            //console.log('squareEl', squareEl)
+        squareEls.style.backgroundColor = colors[squareVal]
     })
-};
+}
 
 //function -renderControls- changes visibility of the play again button
-//this uses a ternary operator: ask a question ? if true, do this : if false do that
+//this uses a ternary operator: ask a question ? if true, do this : if false do that  uses 2 conditions only
 function renderControls() {
     playAgainButton.style.visibility = winner ? 'visible' : 'hidden'
 };
@@ -101,7 +95,7 @@ function renderMessage() {
         messageEl.innerHTML = `
             <span style="color: ${colors[turn]}">
                 ${colors[turn].toUpperCase()}
-            </span> Turn!
+            </span>'s Turn!
         `
     }
 };
@@ -113,24 +107,32 @@ function render() {
     renderControls()
 };
 
-//function -boxClicked- main gameplay function, finds the box clicked on
-//determine square selected,
-function boxClicked (event){
-    const colIdx = squareEls.indexOf(event.target)
-    //console.log('this gives a number for boxClicked', colIdx)
-    //if the square is already taken or there is a winner, exit the function
-    if (board[colIdx] || winner) return;
-    //assign the value to the cell based on the turn
-    board[colIdx] = turn;
-    //change whose turn it is
-    turn *= -1;
-    winner = getWinner();            //---------NEED TO CREATE THIS--------------//
-    //after every move, need to render the changes
-    render();
+//function -squarePicked- main gameplay function, determines square selected
+function squarePicked (event) {
+    //get index of square
+    const squareIdx = parseInt(event.target.id.replace(`sq-`, ''))
+    console.log('this is squareIdx inside squarePicked', squareIdx)
+    //determine if valid move or a winner 
+    if (board[squareIdx] || winner) return
+    //assign value to the square
+    board[squareIdx] = turn
+    //after everything is done, change whose turn it is
+    turn *= -1
+    //assign winning value to the winner variable
+    winner = getWinner()
+    //render updated state
+    render()
+}
+
+//function -getWinner- uses winningCombo array to determine if there is a winner
+function getWinner() {
+    for (let winArr of winningCombos) {
+        if (Math.abs(board[winArr[0]] + board[winArr[1]] + board[winArr[2]]) === 3) return board[winArr[0]];
+    }
 };
 
-/*----- event listeners -----*/
+/*---- event listeners -----*/
 //click on the box to make a move
-document.getElementById('board').addEventListener('click', boxClicked);
+document.getElementById('board').addEventListener('click', squarePicked);
 //click play again button. This initialize an empty board and resets all variables
-playAgainButton.addEventListener('click', init)
+playAgainButton.addEventListener('click', init);
