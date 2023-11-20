@@ -54,7 +54,7 @@ const squareEls = [...document.querySelectorAll('#board > div')];
 //function -init- initializes an empty game board and runs one time when game loads
 //also called when the play again button is clicked
 function init (){
-    //set values and nested array for our state variables
+//set values and nested array for our state variables
     turn = 1;
     winner = null;
 //  let resetGame = true;
@@ -112,7 +112,7 @@ function render() {
     renderControls()
 };
 
-//function -squarePicked- main gameplay function, determines square selected
+//function -squarePicked- main gameplay function, determines square selected with a event
 function squarePicked (event) {
     //get index of square
     const squareIdx = parseInt(event.target.id.replace(`sq-`, ''))
@@ -142,6 +142,7 @@ function getWinner() {
 //function restartGame () {
 //    colors = 1
 //    board = [null,null,null,null,null,null,null,null,null];
+//    squareEls.forEach((squareEl) => squareEls.style.backgroundColor = "");
 //    resestGame = true   
 //};
 
