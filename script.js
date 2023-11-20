@@ -142,7 +142,7 @@ function getWinner() {
 function restartGame (squareEls) {
    //colors = 1
    //board = [null,null,null,null,null,null,null,null,null];
-    squareEls.forEach((squareEl) => squareEls.style.backgroundColor = "");
+    squareEls.forEach((squareEl) => squareEl.style.backgroundColor = "");
     init()
     playAgainButton.style.visibility = 'hidden'  
 };
