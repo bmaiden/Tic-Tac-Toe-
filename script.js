@@ -139,15 +139,19 @@ function getWinner() {
 };
 
 //function -restartGame- resets game board back to empty
-//function restartGame () {
-//    colors = 1
-//    board = [null,null,null,null,null,null,null,null,null];
-//    squareEls.forEach((squareEl) => squareEls.style.backgroundColor = "");
-//    resestGame = true   
-//};
+function restartGame (squareEls) {
+   //colors = 1
+   //board = [null,null,null,null,null,null,null,null,null];
+    squareEls.forEach((squareEl) => squareEls.style.backgroundColor = "");
+    init()
+    playAgainButton.style.visibility = 'hidden'  
+};
 
 /*---- event listeners -----*/
 //click on the box to make a move
 document.getElementById('board').addEventListener('click', squarePicked);
 //click play again button. This initialize an empty board and resets all variables
-playAgainButton.addEventListener('click', init);
+//playAgainButton.addEventListener('click', init);
+playAgainButton.addEventListener('click', function () {
+    restartGame(squareEls)
+})
