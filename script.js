@@ -11,10 +11,16 @@
 //Define a colors object with keys of 'null' (when the square is empty), and players 1 & -1. 
 //The value assigned to each key represents the color to display for an empty square (null), 
 //player 1 and player -1.
-const players = {      // was colors
+const players = {      
     0: null,
-    1: 'X',            // was 'purple'
-    '-1': 'O'          // was 'orange'
+    1: 'X',            
+    '-1': 'O'          
+};
+
+const colors = {      
+    0: null,
+    1: 'purple',            
+    '-1': 'orange'          
 };
 
 //nested array for winning combinations
@@ -62,12 +68,12 @@ function init() {
 init();
 
 //function -renderBoard- with nested functions
-//renders the game board by looping over board array/function and applies a background color for each element 
+//renders the game board by looping over board array/function and applies a 'X' or 'O' for each element 
 function renderBoard() {
     board.forEach((squareVal, squareIdx) => {
         const squareEls = document.getElementById(`sq-${squareIdx}`)
             //console.log('squareEls', squareEls)
-       // squareEls.style.backgroundColor = colors[squareVal]
+        squareEls.style.color = colors[squareVal]
         squareEls.textContent = players[squareVal];
     })
 }
@@ -132,7 +138,7 @@ function getWinner() {
 
 //function -restartGame- resets game board squares 
 function restartGame(squareEls) {
-    //squareEls.forEach((squareEl) => squareEl.style.backgroundColor = "");
+    squareEls.forEach((squareEl) => squareEl.style.color = "");
     squareEls.forEach((squareEl) => squareEl.textContent = "");
     init()
     playAgainButton.style.visibility = 'hidden'  
