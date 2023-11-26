@@ -22,12 +22,14 @@ header {
     grid-template-columns: repeat(3, 10vmin);
     grid-template-rows: repeat(3, 10vmin);
     margin-top: 2vmin;
+    border: 0.3vmin solid darkblue;
 }
 #board>div {
-    border: 0.1vmin solid darkblue;
-    font-size: 25px;
+    border: 0.3vmin solid darkblue;
+    font-size: 75px;
     cursor: pointer;
     text-align: center;
+    
 }
 
 button {

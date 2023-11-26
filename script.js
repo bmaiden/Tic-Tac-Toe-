@@ -11,10 +11,10 @@
 //Define a colors object with keys of 'null' (when the square is empty), and players 1 & -1. 
 //The value assigned to each key represents the color to display for an empty square (null), 
 //player 1 and player -1.
-const colors = {
+const players = {      // was colors
     0: null,
-    1: 'purple',
-    '-1': 'orange'
+    1: 'X',            // was 'purple'
+    '-1': 'O'          // was 'orange'
 };
 
 //nested array for winning combinations
@@ -67,7 +67,8 @@ function renderBoard() {
     board.forEach((squareVal, squareIdx) => {
         const squareEls = document.getElementById(`sq-${squareIdx}`)
             //console.log('squareEls', squareEls)
-        squareEls.style.backgroundColor = colors[squareVal]
+       // squareEls.style.backgroundColor = colors[squareVal]
+        squareEls.textContent = players[squareVal];
     })
 }
 
@@ -83,14 +84,14 @@ function renderMessage() {
         messageEl.innerText = "It's a Tie!"
     } else if (winner) {
         messageEl.innerHTML = `
-            <span style="color: ${colors[winner]}">
-                ${colors[winner].toUpperCase()}
+            <span style="player: ${players[winner]}">
+                ${players[winner].toUpperCase()}
             </span> Wins!
         `
     } else {
         messageEl.innerHTML = `
-            <span style="color: ${colors[turn]}">
-                ${colors[turn].toUpperCase()}
+            <span style="player: ${players[turn]}">
+                ${players[turn].toUpperCase()}
             </span>'s Turn!
         `
     }
@@ -131,7 +132,8 @@ function getWinner() {
 
 //function -restartGame- resets game board squares 
 function restartGame(squareEls) {
-    squareEls.forEach((squareEl) => squareEl.style.backgroundColor = "");
+    //squareEls.forEach((squareEl) => squareEl.style.backgroundColor = "");
+    squareEls.forEach((squareEl) => squareEl.textContent = "");
     init()
     playAgainButton.style.visibility = 'hidden'  
 };
