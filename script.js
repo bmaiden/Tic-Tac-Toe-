@@ -18,7 +18,7 @@ const players = {
 };
 
 const colors = {      
-    0: null,
+    'T': 'darkslateblue',
     1: 'purple',            
     '-1': 'orange'          
 };
@@ -73,7 +73,7 @@ function renderBoard() {
     board.forEach((squareVal, squareIdx) => {
         const squareEls = document.getElementById(`sq-${squareIdx}`)
             //console.log('squareEls', squareEls)
-        squareEls.style.color = colors[squareVal]
+        squareEls.style.color = colors[squareVal];
         squareEls.textContent = players[squareVal];
     })
 }
@@ -87,14 +87,17 @@ function renderControls() {
 //function -renderMessage- displays a tie, a winner, or current player turn
 function renderMessage() {
     if (winner === 'T') {
+        messageEl.style.color = colors[winner];
         messageEl.innerText = "It's a Tie!"
     } else if (winner) {
+        messageEl.style.color = colors[winner];
         messageEl.innerHTML = `
             <span style="player: ${players[winner]}">
                 ${players[winner].toUpperCase()}
             </span> Wins!
         `
     } else {
+        messageEl.style.color = colors[winner];
         messageEl.innerHTML = `
             <span style="player: ${players[turn]}">
                 ${players[turn].toUpperCase()}
@@ -137,9 +140,10 @@ function getWinner() {
 };
 
 //function -restartGame- resets game board squares 
-function restartGame(squareEls) {
+function restartGame(squareEls, messageEl) {
     squareEls.forEach((squareEl) => squareEl.style.color = "");
     squareEls.forEach((squareEl) => squareEl.textContent = "");
+    messageEl.style.color = "";
     init()
     playAgainButton.style.visibility = 'hidden'  
 };
@@ -150,5 +154,5 @@ document.getElementById('board').addEventListener('click', squarePicked);
 
 //click play again button. This initialize an empty board and resets all variables with the function -restartGame-
 playAgainButton.addEventListener('click', function() {
-    restartGame(squareEls)
+    restartGame(squareEls, messageEl)
 })

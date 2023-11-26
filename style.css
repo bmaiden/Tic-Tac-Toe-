@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
     background-color: lightblue;
+    font-family: 'Permanent Marker', cursive;
 }
 
 body {
@@ -25,10 +26,15 @@ header {
     border: 0.3vmin solid darkblue;
 }
 
+h2 {
+    font-size: 50px;
+    margin-top: 2vmin;
+    margin-bottom: 1vmin;
+}
+
 #board>div {
     display: flex;
     border: 0.3vmin solid darkblue;
-    font-family: 'Permanent Marker', cursive;
     font-size: 70px;
     cursor: pointer;
     justify-content: center;
