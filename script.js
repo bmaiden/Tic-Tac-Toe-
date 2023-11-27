@@ -8,151 +8,151 @@
 //console.log("This is working!")
 
 /*----- constants -----*/
-//Define a colors object with keys of 'null' (when the square is empty), and players 1 & -1. 
-//The value assigned to each key represents the color to display for an empty square (null), 
+//Define a colors object with keys of 'null' (when the square is empty), and players 1 & -1.
+//The value assigned to each key represents the color to display for an empty square (null),
 //player 1 and player -1.
-const players = {      
-    0: null,
-    1: 'X',            
-    '-1': 'O'          
+const players = {
+  0: null,
+  1: "X",
+  "-1": "O",
 };
 
-const colors = {      
-    'T': 'darkslateblue',
-    1: 'purple',            
-    '-1': 'orange'          
+const colors = {
+  T: "darkslateblue",
+  1: "purple",
+  "-1": "orange",
 };
 
 //nested array for winning combinations
 const winningCombos = [
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
-]
-
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 
 /*----- state variables -----*/
-let board;   //an array 
-let turn;    //will be a value of 1 || -1
-let winner;  //global variable
+let board; //an array
+let turn; //will be a value of 1 || -1
+let winner; //global variable
 
 /*----- cached DOM elements  -----*/
 //save HTML elements as variables to use later
-const messageEl = document.querySelector('h2');
-const playAgainButton = document.querySelector('button');
+const messageEl = document.querySelector("h2");
+const playAgainButton = document.querySelector("button");
 
 // ... = spread operator
-// this operator takes a copy of whatever is selected(object, a nodelist, htmlcollection, array) and 
+// this operator takes a copy of whatever is selected(object, a nodelist, htmlcollection, array) and
 //does something to all of the items
-// because we used array brackets, the spread operator is grabbing the items in the nodelist and pushing 
+// because we used array brackets, the spread operator is grabbing the items in the nodelist and pushing
 //them into a new array
-const squareEls = [...document.querySelectorAll('#board > div')];
+const squareEls = [...document.querySelectorAll("#board > div")];
 //console.log('squareEls \n', squareEls);
 
 /*----- functions -----*/
 //function -init- initializes an empty game board and runs when game loads or function -restartGame- is called
 function init() {
-//set values and nested array for our state variables
-    turn = 1;
-    winner = null;
-    board = [null,null,null,null,null,null,null,null,null];
-    
-    render()
-};
+  //set values and nested array for our state variables
+  turn = 1;
+  winner = null;
+  board = [null, null, null, null, null, null, null, null, null];
+
+  render();
+}
 
 init();
 
 //function -renderBoard- with nested functions
-//renders the game board by looping over board array/function and applies a 'X' or 'O' for each element 
+//renders the game board by looping over board array/function and applies a 'X' or 'O' for each element
 function renderBoard() {
-    board.forEach((squareVal, squareIdx) => {
-        const squareEls = document.getElementById(`sq-${squareIdx}`)
-            //console.log('squareEls', squareEls)
-        squareEls.style.color = colors[squareVal];
-        squareEls.textContent = players[squareVal];
-    })
+  board.forEach((squareVal, squareIdx) => {
+    const squareEls = document.getElementById(`sq-${squareIdx}`);
+    //console.log('squareEls', squareEls)
+    squareEls.style.color = colors[squareVal];
+    squareEls.textContent = players[squareVal];
+  });
 }
 
 //function -renderControls- changes visibility of the play again button
 //this uses a ternary operator: ask a question ? if true, do this : if false do that  (uses 2 conditions only)
 function renderControls() {
-    playAgainButton.style.visibility = winner ? 'visible' : 'hidden'
-};
+  playAgainButton.style.visibility = winner ? "visible" : "hidden";
+}
 
 //function -renderMessage- displays a tie, a winner, or current player turn
 function renderMessage() {
-    if (winner === 'T') {
-        messageEl.style.color = colors[winner];
-        messageEl.innerText = "It's a Tie!"
-    } else if (winner) {
-        messageEl.style.color = colors[winner];
-        messageEl.innerHTML = `
+  if (winner === "T") {
+    messageEl.style.color = colors[winner];
+    messageEl.innerText = "It's a Tie!";
+  } else if (winner) {
+    messageEl.style.color = colors[winner];
+    messageEl.innerHTML = `
             <span style="player: ${players[winner]}">
                 ${players[winner].toUpperCase()}
             </span> Wins!
-        `
-    } else {
-        messageEl.style.color = colors[winner];
-        messageEl.innerHTML = `
+        `;
+  } else {
+    messageEl.style.color = colors[winner];
+    messageEl.innerHTML = `
             <span style="player: ${players[turn]}">
                 ${players[turn].toUpperCase()}
             </span>'s Turn!
-        `
-    }
-};
+        `;
+  }
+}
 
 //function -render- calls all of our render based functions at once; function calls are located in the functions -init- and -squarePicked-
 function render() {
-    renderBoard()
-    renderMessage()
-    renderControls()
-};
+  renderBoard();
+  renderMessage();
+  renderControls();
+}
 
 //function -squarePicked- main gameplay function, determines square selected with a event listener
 function squarePicked(event) {
-    //get index of square when it is clicked on
-    const squareIdx = parseInt(event.target.id.replace(`sq-`, ''))
-    //console.log('this is squareIdx inside squarePicked', squareIdx)
-    //determine if valid move or there is a winner 
-    if (board[squareIdx] || winner) return
-    //assigns a value to the square
-    board[squareIdx] = turn
-    //after everything is done, changes whose turn it is
-    turn *= -1
-    //assign winning value to the winner variable
-    winner = getWinner()
-    //render updated state
-    render()
+  //get index of square when it is clicked on
+  const squareIdx = parseInt(event.target.id.replace(`sq-`, ""));
+  //console.log('this is squareIdx inside squarePicked', squareIdx)
+  //determine if valid move or there is a winner
+  if (board[squareIdx] || winner) return;
+  //assigns a value to the square
+  board[squareIdx] = turn;
+  //after everything is done, changes whose turn it is
+  turn *= -1;
+  //assign winning value to the winner variable
+  winner = getWinner();
+  //render updated state
+  render();
 }
 
 //function -getWinner- uses winningCombo array to determine if there is a winner or a tie
 function getWinner() {
-    for (let winArr of winningCombos) {
-        if (Math.abs(board[winArr[0]] + board[winArr[1]] + board[winArr[2]]) === 3) return board[winArr[0]];
-        } 
-        if (board.includes(null)) return null
-        else return 'T'
-};
+  for (let winArr of winningCombos) {
+    if (Math.abs(board[winArr[0]] + board[winArr[1]] + board[winArr[2]]) === 3)
+      return board[winArr[0]];
+  }
+  if (board.includes(null)) return null;
+  else return "T";
+}
 
-//function -restartGame- resets game board squares 
+//function -restartGame- resets game board squares
 function restartGame(squareEls, messageEl) {
-    squareEls.forEach((squareEl) => squareEl.style.color = "");
-    squareEls.forEach((squareEl) => squareEl.textContent = "");
-    messageEl.style.color = "";
-    init()
-    playAgainButton.style.visibility = 'hidden'  
-};
+  squareEls.forEach((squareEl) => (squareEl.style.color = ""));
+  squareEls.forEach((squareEl) => (squareEl.textContent = ""));
+  messageEl.style.color = "";
+  init();
+  playAgainButton.style.visibility = "hidden";
+}
 
 /*---- event listeners -----*/
 //click on the box to make a move
-document.getElementById('board').addEventListener('click', squarePicked);
+document.getElementById("board").addEventListener("click", squarePicked);
 
 //click play again button. This initialize an empty board and resets all variables with the function -restartGame-
-playAgainButton.addEventListener('click', function() {
-    restartGame(squareEls, messageEl)
-})
+playAgainButton.addEventListener("click", function () {
+  restartGame(squareEls, messageEl);
+});
